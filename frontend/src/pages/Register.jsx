@@ -1,26 +1,19 @@
 import { useState } from "react";
-import api from "../services/api";
+import api from "../services/axiosInstance"; // use axiosInstance
 import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const navigate = useNavigate();
-
-  // State to store form data
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
   });
 
-  // Handle input changes
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -45,7 +38,8 @@ export default function Register() {
           onChange={handleChange}
           required
         />
-        <br /><br />
+        <br />
+        <br />
         <input
           type="email"
           name="email"
@@ -53,7 +47,8 @@ export default function Register() {
           value={formData.email}
           onChange={handleChange}
         />
-        <br /><br />
+        <br />
+        <br />
         <input
           type="password"
           name="password"
@@ -62,10 +57,10 @@ export default function Register() {
           onChange={handleChange}
           required
         />
-        <br /><br />
+        <br />
+        <br />
         <button type="submit">Sign Up</button>
       </form>
     </div>
   );
 }
-

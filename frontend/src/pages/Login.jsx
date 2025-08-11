@@ -1,20 +1,16 @@
 import { useState } from "react";
-import api from "../services/api";
+import api from "../services/axiosInstance"; // use axiosInstance
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
@@ -22,7 +18,6 @@ export default function Login() {
     try {
       const res = await api.post("token/", formData);
 
-      // Save tokens in localStorage (simple approach for now)
       localStorage.setItem("access", res.data.access);
       localStorage.setItem("refresh", res.data.refresh);
 
@@ -46,7 +41,8 @@ export default function Login() {
           onChange={handleChange}
           required
         />
-        <br /><br />
+        <br />
+        <br />
         <input
           type="password"
           name="password"
@@ -55,7 +51,8 @@ export default function Login() {
           onChange={handleChange}
           required
         />
-        <br /><br />
+        <br />
+        <br />
         <button type="submit">Log In</button>
       </form>
     </div>
