@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',   
     'api',
-    'corsheaders',             
+    'corsheaders', 
+    'tasks',            
 ]
 
 MIDDLEWARE = [
@@ -139,6 +140,6 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(seconds=10),  # super short for testing
+    "ACCESS_TOKEN_LIFETIME": timedelta(seconds=600),  # super short for testing
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
