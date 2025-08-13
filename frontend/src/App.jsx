@@ -4,6 +4,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import TaskList from "./components/TaskList";
 import AddTask from "./components/AddTask";
+import EditTask from "./components/EditTask";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/tasks" element={<TaskList />} />
         <Route path="/tasks/new" element={<AddTask />} />
+        <Route path="/tasks/edit/:id" element={<EditTask />} />
       </Routes>
     </Router>
   );

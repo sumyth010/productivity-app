@@ -1,40 +1,47 @@
 import { useEffect, useState } from "react";
-import api from "../services/axiosInstance"; // your axios instance with auth
+import api from "../services/axiosInstance";
+import { Link } from "react-router-dom";
 
 export default function TaskList() {
   const [tasks, setTasks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-    api.get("tasks/")
-      .then((res) => {
-        setTasks(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError("Failed to load tasks");
-        setLoading(false);
-      });
+    fetchTasks();
   }, []);
 
-  if (loading) return <p>Loading tasks...</p>;
-  if (error) return <p>{error}</p>;
+  const fetchTasks = () => {
+    api.get("tasks/")
+      .then((res) => setTasks(res.data))
+      .catch((err) => console.error(err));
+  };
+
+  const handleDelete = (id) => {
+    if (window.confirm("Are you sure you want to delete this task?")) {
+      api.delete(`tasks/${id}/`)
+        .then(() => {
+          setTasks(tasks.filter(task => task.id !== id));
+        })
+        .catch(() => {
+          alert("Failed to delete task.");
+        });
+    }
+  };
 
   return (
     <div>
-      <h2>Your Tasks</h2>
-      {tasks.length === 0 ? (
-        <p>No tasks found.</p>
-      ) : (
-        <ul>
-          {tasks.map(task => (
-            <li key={task.id}>
-              <strong>{task.title}</strong> - {task.priority} - Due: {new Date(task.due_date).toLocaleDateString()}
-            </li>
-          ))}
-        </ul>
-      )}
+      <h2>Task List</h2>
+      <Link to="/tasks/add">Add New Task</Link>
+      <ul>
+        {tasks.map(task => (
+          <li key={task.id}>
+            <strong>{task.title}</strong> - {task.priority}
+            {" | "}
+            <Link to={`/tasks/edit/${task.id}`}>Edit</Link>
+            {" | "}
+            <button onClick={() => handleDelete(task.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
